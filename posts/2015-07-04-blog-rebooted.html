@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Daniel Hillerström" />
+    <meta name="keywords" content="computer science,mathematics,programming languages,compilers,parallelism" />
+    <meta name="generator" content="Hakyll" />
+    <meta name="referrer" content="origin" />
+    <meta name="robots" content="index,follow" />
+    <title>Blog Rebooted | Daniel Hillerstr&ouml;m</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.customizations.css" />
+  </head>
+  <body>
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+      <header id="banner" class="jumbotron">
+	<div class="container">
+	  <h1>Daniel Hillerström</h1>
+	  <p>Theoretical Computer Science</p>
+	</div>
+      </header>
+      
+      <!-- Fly-in navbar -->
+      <div class="navbar navbar-default navbar-static-top" id="nav">
+	<div class="container">
+	  <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+	  </div>
+	  <div class="collapse navbar-collapse">
+	    <div class="navbar-header">
+	      <span class="navbar-brand" id="identity">λx.x : τ → τ</span>
+	    </div>
+            <ul class="nav navbar-nav">
+              <li><a href="../index.html"><span class="glyphicon glyphicon-book" aria-hidden="true"> Blog</span></a></li>
+              <li><a href="../about.html"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"> About</span></a></li>
+            </ul>
+	   <!-- <form class="navbar-form navbar-right" role="search">
+	      <div class="input-group" style="width: 240px;">
+		<input type="text" class="form-control" placeholder="Search" id="search-field">
+		<span class="input-group-btn">
+		  <button class="btn btn-default" type="button" id="search-submit">
+		    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		  </button>
+		</span>
+	      </div><!--/.form-group --
+	    </form>-->
+	  </div><!--/.nav-collapse -->
+	</div><!--/.container -->
+      </div><!--/.navbar -->
+  
+      <!-- Begin page content -->
+      <div class="container main-content">
+	<div class="row">
+	  <div class="col-sm-10">
+	    <article id="mypaper" class="entry">
+  <header class="entry-meta">
+    <span class="entry-meta-categories">
+      
+        <a href="../tags/news.html">news</a>
+      
+    </span>
+    <h1>Blog Rebooted</h1>
+    <span class="entry-meta-date">Published on July  4, 2015</span>
+  </header>
+  <section class="entry-content">
+    <figure class="feature-image">
+<img src="http://placehold.it/400x200&text=Hello (again) world" class="img-responsive center-block" />
+</figure>
+<p>If you have been a regular visitor then you will find that I have changed the design. But this is only what the eye sees, in fact, I have changed the entire architecture. The old website was driven by <a href="https://www.wordpress.com">WordPress</a> blog engine, however I have switched to the static page generator <a href="http://jaspervdj.be/hakyll/">Hakyll</a>. <!--more--></p>
+<p>My motivation for changing engine mainly boiled down to three issues I had with <a href="https://www.wordpress.com">WordPress</a>:</p>
+<ol style="list-style-type: decimal">
+<li>I was unhappy about the design (theme).</li>
+<li>It was relatively slow.</li>
+<li>It was unsecure, and constantly under attack from what I assume are malicious robots.</li>
+</ol>
+<p>I suppose items 2 and 3 could have been solved by some WordPress-plugin. But it was the design that ultimately made me go for another engine. I found myself “hacking” the theme templates to apply my adjustments, but silly-me accidentally applied an update to the site which reverted all my changes. So it became that I grew tired of it.</p>
+<p>I recently stumbled upon <a href="http://jaspervdj.be/hakyll/">Hakyll</a> which is developed by <a href="http://jaspervdj.be">Jasper Van der Jeugt</a>. The generator is written in Haskell and features an <em>embedded domain specific language</em> which makes it possible to apply, virtually, any customisation you would ever want. It ships with the essential building blocks to build a personal blog. Honestly, I was hooked immediately when I learned about it.</p>
+<p>For rendering <a href="http://jaspervdj.be/hakyll/">Hakyll</a> uses the universal document converter <a href="http://pandoc.org">Pandoc</a>. Document conversion provides flexibility as I can typeset my articles in a variety of typesetting languages and convert between these languages. At the moment I am typesetting in Markdown. <a href="http://jaspervdj.be/hakyll/">Hakyll</a> and <a href="http://pandoc.org">Pandoc</a> translate my Markdown formatted articles to HTML formatted ones. Furthermore, <a href="http://jaspervdj.be/hakyll/">Hakyll</a> provides a templating mechanism allows me decouple the articles and website layout. In the near future I might write a blog post about my <a href="http://jaspervdj.be/hakyll/">Hakyll</a>-setup. Until then you can find <a href="https://github.com/dhil/dhil.github.io">the complete source code for my website on GitHub</a>. I will briefly address how <a href="http://jaspervdj.be/hakyll/">Hakyll</a> solves the aforementioned issues I had with <a href="https://www.wordpress.com">WordPress</a>.</p>
+<h2 id="theming" class="page-header">Theming</h2>
+<p>Hakyll, like WordPress, decouples layout code and typesetting. Creating a theme for WordPress is no straightforward process and editting is limited to changing a few variables predetermined by the theme author. Alternatively, one can edit the theme files direct, however it requires you to delve into the WordPress php api for themes. In constrast, Hakyll themes are simple HTML files. To help you not repeat yourself it provides a small templating language, i.e. constructs for variables, looping and conditional expressions. So, you can easily have the design you desire without compromises. I built this responsive layout using <a href="https://getbootstrap.org">Twitter’s bootstrap</a>.</p>
+<h2 id="from-turtle-to-cheetah-speed" class="page-header">From turtle to cheetah speed</h2>
+<p>I found that WordPress was really slow. By nature WordPress pages are dynamic, that is, they are generated upon request. I suppose the relatively high latency I experienced was due to WordPress’ page rendering flow being rather bloated. I reckon some caching plugins could reduce this latency. Furthermore, I suspect my host may also be to blame as it rather slow itself.</p>
+<p>Hakyll generates static pages, so the webserver only needs to serve the HTML files to the client. This approach is lighting fast compared to the dynamic compilation approach.</p>
+<h2 id="making-the-site-secure" class="page-header">Making the site secure</h2>
+<p>According to my WordPress-installation several thousands attacks on <code>wp-admin</code> were carried out each day. I suspect these malicious attempts to login into my website being carried out by robots that are specially tailored to attack WordPress-installations. It is probably a consequent of using a well-known and popular solution. But this problem rises from WordPress providing everything in the same box combined with its stateful nature. In the static world is problem does not exist as there is no state. The caveat is that I have to compile blog posts before publishing them. However, the compilation and publish process can be mostly automated. My website reside on <a href="https://pages.github.com/">GitHub pages</a> which I publish to through a SSH-tunnel because I do not have a SSL-certificate for my domain my WordPress-installation was inherently insecure. But with GitHub I get better security for free.</p>
+<h1 id="in-the-near-future" class="page-header">In the near future</h1>
+<p>I am looking for a bibliography extension to Hakyll. Ideally, I would like something that is capable of inserting references from a BibTeX file into my blog posts. If I cannot find such a tool I suppose I have to write one myself! Furthermore, the only issue I really have with the static pages approach is the lack of a dynamic search/indexing support. However, I believe you can emulate search-support in the client, <a href="https://github.com/Geal/hakyll-search-prototype">it appears Geoffroy Coupie already has done</a> this to some extent. I will have to look further into it. Moreover, I will investigate how to add automatical announcement of new blog post via Twitter, Facebook and other social platforms. I suppose Github’s commit-hooks can be exploited to provide this functionality.</p>
+<p>I will soon add more content!</p>
+  </section>
+  <footer class="entry-footer">
+    <div class="share-this">
+      <h4>Share this:</h4>
+      <ul class="share-buttons">
+	<li>
+	  <span class="share-button" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent('Blog Rebooted')); return false;"><img src="../images/flat_web_icon_set/Facebook.png" /></span>
+	</li>
+	<li>
+	  <span class="share-button" onclick="window.open('https://twitter.com/intent/tweet?via=dhillerstrom&text=' + encodeURIComponent('Blog Rebooted') + ':%20'  + encodeURIComponent(document.URL)); return false;" title="Share via Twitter"><img src="../images/flat_web_icon_set/Twitter.png" /></span>
+	</li>
+	<li>
+	  <span class="share-button" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url=' + encodeURIComponent(document.URL)); return false;"><img src="../images/flat_web_icon_set/Googleplus.png" /></span>
+	</li>
+	<li>
+	  <span class="share-button" title="Email" onclick="window.location.assign('mailto:?subject=' + encodeURIComponent('Blog Rebooted') + '&body=' +  encodeURIComponent(document.URL)); return false;"><img src="../images/flat_web_icon_set/Email.png" /></span>
+	</li>
+      </ul>
+    </div>
+  </footer>
+  <script src="https://apis.google.com/js/plusone.js"></script>
+  <div class="container">
+    <div id="comments"></div>
+  </div>
+  <script>
+    gapi.comments.render('comments', {
+    href: window.location,
+    first_party_property: 'BLOGGER',
+    view_type: 'FILTERED_POSTMOD'
+    });
+</script>
+</article>
+
+	  </div>
+	</div> <!-- /.row -->
+      </div>
+    </div><!--/wrap-->
+
+    <!-- Sticky footer -->
+    <div id="footer">
+      <div class="container">
+	<p class="text-muted">Blog by Daniel Hillerström. Generated by <a href="http://jaspervdj.be/hakyll/">Hakyll</a>.</p>
+      </div>
+    </div>
+    <!-- footer end -->
+
+    <!-- Scroll-to-top button -->
+    <ul class="nav pull-right scroll-top">
+      <li><a href="#" title="Scroll to top"><i class="glyphicon glyphicon-chevron-up"></i></a></li>
+    </ul>
+    <!-- Scroll-to-top end -->
+
+    <!-- Load scripts -->
+    <script src="../static/js/jquery-2.1.3.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/navbar.js"></script>
+    <script src="../static/js/init.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-64774386-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
+

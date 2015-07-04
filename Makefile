@@ -21,8 +21,7 @@ publish: build
 	cp -r _site/* _build/
 	cp README.md LICENSE _build/
 	cd _build
-	git add *
-	git commit -m "Compiled blog"
+	git commit -a -m "Compiled blog"
 	git push origin master
 
 preview: build

@@ -12,7 +12,7 @@ At the moment I am working on my master's dissertation [*Handlers for Algebraic 
 My aim is to implement first-class handlers for algebraic effects in the [functional web-programming Links](http://groups.inf.ed.ac.uk/links/).
 
 ## You can find me online {.page-header}
-* I have published some software projects at my [GitHub](https://github.com/dhil).
-* You can follow me on [Twitter (\@dhillerstrom)](https://twitter.com/intent/user?screen_name=dhillerstrom).
-* And you can find me on [Facebook for professionals aka. LinkedIn](https://uk.linkedin.com/in/danielhillerstrom).
+* I have published various (software) projects at [GitHub](https://github.com/dhil).
+* Occasionally, I tweet. You can follow me on [Twitter (\@dhillerstrom)](https://twitter.com/intent/user?screen_name=dhillerstrom).
+* You can also find me on [Facebook for professionals aka. LinkedIn](https://uk.linkedin.com/in/danielhillerstrom).
 * I usually idle at [\#\#math](irc://irc.freenode.net/#math), [\#haskell](irc://irc.freenode.net/haskell) and [\#\#programming](irc://irc.freenode.net/#programming) at freenode.org.

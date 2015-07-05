@@ -63,7 +63,7 @@ main = hakyll $ do
       >>= loadAndApplyTemplate "templates/default.html" defaultContext
       >>= relativizeUrls
 
-  -- | List of posts
+  -- | Archive, a list of previous posts.
   create ["archive.html"] $ do
     route idRoute
     compile $ do
@@ -77,6 +77,13 @@ main = hakyll $ do
         >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
         >>= loadAndApplyTemplate "templates/default.html" archiveCtx
         >>= relativizeUrls
+
+    -- | The "404 Not Found" page, we don't relativize URL's here due to GitHub.
+    match "404.html" $ do
+        route idRoute
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/page.html" defaultContext
+            >>= loadAndApplyTemplate "templates/default.html" defaultContext
 
   -- | Main page
   match "index.html" $ do

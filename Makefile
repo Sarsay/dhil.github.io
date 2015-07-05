@@ -20,9 +20,9 @@ publish: build
 	git push origin source
 	cp -r _site/* _build/
 	cp README.md LICENSE _build/
-	cd _build
-	git add --ignore-errors *
-	git commit -m "Compiled blog"
+	cd _build; \
+	git add --ignore-errors * ; \
+	git commit -m "Compiled blog" ; \
 	git push origin master
 
 preview: build

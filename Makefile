@@ -15,13 +15,14 @@ new:
 	echo "Not yet implemented"
 
 publish: build
-	git add posts/* templates/* site.hs README.md LICENSE index.html static/* images/*
+	git add --ignore-errors posts/\*.md templates/\*.html site.hs README.md LICENSE index.html static/* images/*
 	git commit -m "Added new content"
 	git push origin source
 	cp -r _site/* _build/
 	cp README.md LICENSE _build/
 	cd _build
-	git commit -a -m "Compiled blog"
+	git add --ignore-errors *
+	git commit -m "Compiled blog"
 	git push origin master
 
 preview: build

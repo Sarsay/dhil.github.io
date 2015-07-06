@@ -31,7 +31,7 @@ I will briefly address how [Hakyll][1] solves the aforementioned issues I had wi
 ## Theming { .page-header }
 Hakyll, like WordPress, decouples layout code and typesetting. Creating a theme for WordPress is no straightforward process and editting is limited to changing a few variables predetermined by the theme author. Alternatively, one can edit the theme files direct, however it requires you to delve into the WordPress php api for themes.
 In constrast, Hakyll themes are simple HTML files. To help you not repeat yourself it provides a small templating language, i.e. constructs for variables, looping and conditional expressions.
-So, you can easily have the design you desire without compromises. I built this responsive layout using [Twitter's bootstrap](https://getbootstrap.org).
+So, you can easily have the design you desire without compromises. I built this responsive layout using [Twitter's bootstrap](https://getbootstrap.com).
 
 ## From turtle to cheetah speed { .page-header }
 I found that WordPress was really slow. By nature WordPress pages are dynamic, that is, they are generated upon request. I suppose the relatively high latency I experienced was due to WordPress' page rendering flow being rather bloated. I reckon some caching plugins could reduce this latency. Furthermore, I suspect my host may also be to blame as it rather slow itself.

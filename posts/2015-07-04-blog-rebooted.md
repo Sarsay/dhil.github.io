@@ -3,7 +3,7 @@ title: Blog Rebooted
 tags: news
 ---
 <figure class="feature-image">
- <img src="http://placehold.it/400x200&amp;text=Hello (again) world" class="img-responsive center-block" />
+ <img alt="Hello (again) world" src="http://placehold.it/400x200&amp;text=Hello (again) world" class="img-responsive center-block" />
 </figure>
 If you have been a regular visitor then you will find that I have changed the design.
 But this is only what the eye sees, in fact, I have changed the entire architecture.

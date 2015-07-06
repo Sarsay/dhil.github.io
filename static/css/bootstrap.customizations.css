@@ -254,6 +254,7 @@ span.navbar-brand {
     -moz-box-shadow: 2px 3px 4px 1px #666;
     box-shadow: 0px 0px 10px #666;
     float: right;
+    margin-left: 10px;
 }
 
 .profile-pic:hover {    

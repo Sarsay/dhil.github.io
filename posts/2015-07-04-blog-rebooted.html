@@ -12,7 +12,7 @@
     <meta name="robots" content="index,follow" />
     <meta property="og:image" content="http://blog.dhil.net/images/haskell-logo.png" />
     <title>Blog Rebooted | Daniel Hillerstr&ouml;m</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.customizations.css" />
   </head>
   <body>
@@ -86,7 +86,7 @@
 <p>I recently stumbled upon <a href="http://jaspervdj.be/hakyll/">Hakyll</a> which is developed by <a href="http://jaspervdj.be">Jasper Van der Jeugt</a>. The generator is written in Haskell and features an <em>embedded domain specific language</em> which makes it possible to apply, virtually, any customisation you would ever want. It ships with the essential building blocks to build a personal blog. Honestly, I was hooked immediately when I learned about it.</p>
 <p>For rendering <a href="http://jaspervdj.be/hakyll/">Hakyll</a> uses the universal document converter <a href="http://pandoc.org">Pandoc</a>. Document conversion provides flexibility as I can typeset my articles in a variety of typesetting languages and convert between these languages. At the moment I am typesetting in Markdown. <a href="http://jaspervdj.be/hakyll/">Hakyll</a> and <a href="http://pandoc.org">Pandoc</a> translate my Markdown formatted articles to HTML formatted ones. Furthermore, <a href="http://jaspervdj.be/hakyll/">Hakyll</a> provides a templating mechanism allows me decouple the articles and website layout. In the near future I might write a blog post about my <a href="http://jaspervdj.be/hakyll/">Hakyll</a>-setup. Until then you can find <a href="https://github.com/dhil/dhil.github.io">the complete source code for my website on GitHub</a>. I will briefly address how <a href="http://jaspervdj.be/hakyll/">Hakyll</a> solves the aforementioned issues I had with <a href="https://www.wordpress.com">WordPress</a>.</p>
 <h2 id="theming" class="page-header">Theming</h2>
-<p>Hakyll, like WordPress, decouples layout code and typesetting. Creating a theme for WordPress is no straightforward process and editting is limited to changing a few variables predetermined by the theme author. Alternatively, one can edit the theme files direct, however it requires you to delve into the WordPress php api for themes. In constrast, Hakyll themes are simple HTML files. To help you not repeat yourself it provides a small templating language, i.e. constructs for variables, looping and conditional expressions. So, you can easily have the design you desire without compromises. I built this responsive layout using <a href="https://getbootstrap.org">Twitter’s bootstrap</a>.</p>
+<p>Hakyll, like WordPress, decouples layout code and typesetting. Creating a theme for WordPress is no straightforward process and editting is limited to changing a few variables predetermined by the theme author. Alternatively, one can edit the theme files direct, however it requires you to delve into the WordPress php api for themes. In constrast, Hakyll themes are simple HTML files. To help you not repeat yourself it provides a small templating language, i.e. constructs for variables, looping and conditional expressions. So, you can easily have the design you desire without compromises. I built this responsive layout using <a href="https://getbootstrap.com">Twitter’s bootstrap</a>.</p>
 <h2 id="from-turtle-to-cheetah-speed" class="page-header">From turtle to cheetah speed</h2>
 <p>I found that WordPress was really slow. By nature WordPress pages are dynamic, that is, they are generated upon request. I suppose the relatively high latency I experienced was due to WordPress’ page rendering flow being rather bloated. I reckon some caching plugins could reduce this latency. Furthermore, I suspect my host may also be to blame as it rather slow itself.</p>
 <p>Hakyll generates static pages, so the webserver only needs to serve the HTML files to the client. This approach is lighting fast compared to the dynamic compilation approach.</p>
@@ -148,8 +148,8 @@
     <!-- Scroll-to-top end -->
 
     <!-- Load scripts -->
-    <script src="../static/js/jquery-2.1.3.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="../static/js/navbar.js"></script>
     <script src="../static/js/init.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

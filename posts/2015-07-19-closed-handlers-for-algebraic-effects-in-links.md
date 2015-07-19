@@ -39,7 +39,7 @@ fun hello() {
 links> identity(hello);
 Type error: The function identity ...
 ```
-As expected nothing interesting really happens. The computation `fortytwo` just returns 42 and `empty` returns unit. However, we get a type error when we try to handle `hello`. This is because printing to standard out is an *side effect* and `identity` does not handle this side effect. Actually, in my current implementation no handler can handle the print side effect as it is a built-in effect and my handlers only handles user-defined effects.
+As expected nothing interesting really happens. The computation `fortytwo` just returns 42 and `empty` returns unit. However, we get a type error when we try to handle `hello`. This is because printing to standard out is a *side effect* and `identity` does not handle this side effect. Actually, in my current implementation no handler can handle the print side effect as it is a built-in effect and my handlers only handles user-defined effects.
 Note that `fortytwo` and `empty` are both pure computations.
 
 We could transform the output instead of returning it plainly. Let us wrap it inside a singleton list:
@@ -77,7 +77,10 @@ The first case handles the user-defined operation `Fail`. The case exposes two p
 \\[ \( \(\) \\xrightarrow{\\{Fail: \( \\_ \) \\to \( \\_ \) \\}} a\) \\to \[|Just:a|Nothing| \\_ |\] \\]
 Here underscore (_) hides the names of unused type variables. The output type might look rather obscure, but it is just Links "pretty-printing" a polymorphic variant type. Notice that the computation signature has an nonempty effect signature now. The signature is interpreted as "`maybe` handles a computation that *might* perform the `Fail` operation".
 
-At the time of writing operations are discharged by using the `do` primitive which does not really "feel" functionally. It is really a construct from the intermediate representation in the compiler which has leaked into the front-end such that there is a one-to-one mapping. For now it is convenient, but I might change in the future. In my implementation I take advantage of Links' structural typing system, so we need not declare operations before using them. Syntactically an user-defined operation begins with a capital letter, e.g. `Fail` is an operation name. Let us try some examples with `maybe`:
+At the time of writing operations are discharged by using the `do` primitive which does not really "feel" functionally. It is 
+really a construct from the intermediate representation in the compiler which has leaked into the front-end such that there is a 
+one-to-one mapping. For now it is convenient, but I might it change in the future. In my implementation I take advantage of 
+Links' structural typing system, so we need not declare operations before using them. Syntactically an user-defined operation begins with a capital letter, e.g. `Fail` is an operation name. Let us try some examples with `maybe`:
 ```links
 links> maybe(fortytwo);
 Just(42) : [|Just:Int|Nothing|_|]

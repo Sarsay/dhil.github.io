@@ -17,7 +17,7 @@ new:
 	echo "$$(date '+%Y-%m-%d')-$$title.html"
 
 publish: build
-	git add --ignore-errors posts/\*.md templates/\*.html site.hs README.md LICENSE index.html 404.html static/* images/* about.md
+	git add --ignore-errors posts/\*.md templates/\*.html site.hs README.md LICENSE index.html 404.html static/* images/* about.md Makefile
 	git commit -m "Added new content"
 	git push origin source
 	cp -r _site/* _build/

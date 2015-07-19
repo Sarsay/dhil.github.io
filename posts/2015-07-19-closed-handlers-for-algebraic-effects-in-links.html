@@ -238,7 +238,7 @@ links&gt; chooseAll(choice);
     }
 }</code></pre>
 <p>The <code>state</code> handler has type \[ (() \xrightarrow{\{ Get:( \_ ) \to \texttt{a}, Put:(a) \to ()\}} b ) \to (a) \to b \] Thus, we can tell from the signature that <code>state(comp)</code> returns a function of type \( (\texttt{Int}) \to \texttt{Int} \) which is a function that given an initial state will return the final state.</p>
-<p>At first glance the cases may seem unclear how the state is maintained, but I invite the reader to do an abstract simulation of <code>state(comp)</code> (on paper) – it is an interesting little exercise.</p>
+<p>At first glance it may seem unclear how the state is maintained, but I invite the reader to do an abstract simulation of <code>state(comp)</code> (on paper) – it is an interesting little exercise.</p>
 <p>This state handler is partially lazy as when it first handles either <code>Get</code> or <code>Put</code> it immediate returns a function and when that function is invoked the remainder of the stateful computation is executed.</p>
 <p>We define a convenient helper function to run stateful computations:</p>
 <pre class="links"><code>fun runState(s0, c) {

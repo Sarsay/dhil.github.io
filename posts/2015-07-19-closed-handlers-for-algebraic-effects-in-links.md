@@ -9,7 +9,8 @@ I am working on implementing first-class effect handlers in the [web-oriented fu
 
 ## Programming with closed handlers
 At the time of writing I got a working implementation of closed handlers (modulo whatever bugs I have not discovered yet).
-We can think of a closed handler as imposing an upper bound on the kind of effectful computations that it handles.
+Currently, I am working on implementing support for open handlers in Links.
+We can think of a closed handler as imposing an upper bound on the kind of effectful computations that it handles. Conversely, an open handler handles whatever effects it can and leaves the remainding part of the computation abstract for other handlers to interpret.
 
 Let us dive right into programming with closed handlers with some examples. Our first example is the (rather boring) identity handler:
 ```links

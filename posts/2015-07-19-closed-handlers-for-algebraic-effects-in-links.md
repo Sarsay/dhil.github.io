@@ -205,7 +205,7 @@ fun comp() {
 The stateful computation `comp` first retrieve the initial state and then increments it by one. Afterwards, it retrieves and doubles the state, and then returns the final state. The type of `comp` is
 \\[ \( \) \\xrightarrow{\\{ Get:\(\(\)\) \\to \\texttt{Int}, Put:\(\\texttt{Int}\) \\to \(\) \\; | \\rho \\}} \\texttt{Int} \\]
 
-The interesting part is how we implement state. Because Links is a functional programming language our principal abstraction is a function type. Thus, we will abstract over state by encapsulating it inside a function:
+The interesting part is how we implement state. Because Links is a functional programming language our principal abstraction is a function. Thus, we will abstract over state by encapsulating it inside a function:
 ```links
 fun state(m) {
     handle(m) {

@@ -225,7 +225,7 @@ The `state` handler has type
 \\[ \(\(\) \\xrightarrow{\\{ Get:\( \\_ \) \\to \\texttt{a}, Put:\(a\) \\to \(\)\\}} b \) \\to \(a\) \\to b \\]
 Thus, we can tell from the signature that `state(comp)` returns a function of type \\( \(\\texttt{Int}\) \\to \\texttt{Int} \\) which is a function that given an initial state will return the final state.
 
-At first glance the cases may seem unclear how the state is maintained, but I invite the reader to do an abstract simulation of `state(comp)` (on paper) -- it is an interesting little exercise.
+At first glance it may seem unclear how the state is maintained, but I invite the reader to do an abstract simulation of `state(comp)` (on paper) -- it is an interesting little exercise.
 
 This state handler is partially lazy as when it first handles either `Get` or `Put` it immediate returns a function and when that function is invoked the remainder of the stateful computation is executed.
 

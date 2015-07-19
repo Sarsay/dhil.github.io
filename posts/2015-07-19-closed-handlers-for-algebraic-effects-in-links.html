@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Daniel Hillerström" />
+    <meta name="keywords" content="computer science,mathematics,programming languages,compilers,parallelism" />
+    <meta name="description" content="Blog about computer science and mathematics, and occasionally something completely different." />
+    <meta name="generator" content="Hakyll" />
+    <meta name="referrer" content="origin" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:image" content="http://blog.dhil.net/images/haskell-logo.png" />
+    <title>(Closed) Handlers for Algebraic Effects in Links | Daniel Hillerström</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.customizations.css" />
+  </head>
+  <body>
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+      <header id="banner" class="jumbotron">
+	<div class="container">
+	  <h1>Daniel Hillerström</h1>
+	  <p>Theoretical Computer Science</p>
+	</div>
+      </header>
+      
+      <!-- Fly-in navbar -->
+      <div class="navbar navbar-default navbar-static-top" id="nav">
+	<div class="container">
+	  <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+	  </div>
+	  <div class="collapse navbar-collapse">
+	    <div class="navbar-header">
+	      <span class="navbar-brand" id="identity">λx.x : τ → τ</span>
+	    </div>
+            <ul class="nav navbar-nav">
+              <li><a href="../index.html"><span class="glyphicon glyphicon-book" aria-hidden="true"> Blog</span></a></li>
+              <li><a href="../about.html"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"> About</span></a></li>
+            </ul>
+	   <!-- <form class="navbar-form navbar-right" role="search">
+	      <div class="input-group" style="width: 240px;">
+		<input type="text" class="form-control" placeholder="Search" id="search-field">
+		<span class="input-group-btn">
+		  <button class="btn btn-default" type="button" id="search-submit">
+		    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		  </button>
+		</span>
+	      </div>!- -/.form-group - -
+	    </form>-->
+	  </div><!--/.nav-collapse -->
+	</div><!--/.container -->
+      </div><!--/.navbar -->
+  
+      <!-- Begin page content -->
+      <div class="container main-content">
+	<div class="row">
+	  <div class="col-sm-8">
+	    <article id="mypaper" class="entry">
+  <header class="entry-meta">
+    <span class="entry-meta-categories">
+      
+        <a href="../tags/MSc%20project.html">MSc project</a>, <a href="../tags/functional%20programming.html">functional programming</a>
+      
+    </span>
+    <h1>(Closed) Handlers for Algebraic Effects in Links</h1>
+    <span class="entry-meta-date">Published on July 19, 2015</span>
+  </header>
+  <section class="entry-content">
+    <p>This Thursday I gave a short presentation about the progress of my MSc-project: <em>Handlers for Algebraic Effects in Links</em>. A handful of classmates and supervisors were present. My classmates presented their respective projects too. However we only had 10 minutes each to cover subject introduction, demonstration and report on current progress. I figured I would elaborate the demonstration of my presentation here.</p>
+<p>I am working on implementing first-class effect handlers in the <a href="http://groups.inf.ed.ac.uk/links/">web-oriented functional programming Links</a>. I will show how to apply simple transformations to computations, program simple exception handling, manipulate choice computations, and how to simulate stateful computations using closed handlers in Links. <!--more--></p>
+<h2 id="programming-with-closed-handlers">Programming with closed handlers</h2>
+<p>At the time of writing I got a working implementation of closed handlers (modulo whatever bugs I have not discovered yet). We can think of a closed handler as imposing an upper bound on the kind of effectful computations that it handles.</p>
+<p>Let us dive right into programming with closed handlers with some examples. Our first example is the (rather boring) identity handler:</p>
+<pre class="links"><code>fun identity(m) {
+  handle(m) {
+    case Return(x) -&gt; x
+  }
+}</code></pre>
+<p>In Links handlers are abstracted over by functions. The handler’s name is <code>identity</code> and it takes one parameter <code>m</code> which is the computation it handles. The handle construct is essentially a collection of case-statements. In this particular handler we only have one case, namely, the <code>Return</code>-case. <code>Return</code> is a special effect that is invoked upon completion of the computation <code>m</code>. It is reminisicent of the monadic function <em>return</em> in Haskell.</p>
+<p>The type for <code>identity</code> is \( (() \to a) \to a \), i.e. it is a function which takes a computation (thunk) as input parameter, and outputs a value of type <code>a</code>. Let us try to handle some computations with <code>identity</code>:</p>
+<pre class="links"><code>fun fortytwo() { 42 }
+links&gt; identity(fortytwo);
+42 : Int
+
+fun empty() { }
+links&gt; identity(empty);
+() : ()
+
+fun hello() {
+    print(&quot;Hello World&quot;)
+}
+links&gt; identity(hello);
+Type error: The function identity ...</code></pre>
+<p>As expected nothing interesting really happens. The computation <code>fortytwo</code> just returns 42 and <code>empty</code> returns unit. However, we get a type error when we try to handle <code>hello</code>. This is because printing to standard out is an <em>side effect</em> and <code>identity</code> does not handle this side effect. Actually, in my current implementation no handler can handle the print side effect as it is a built-in effect and my handlers only handles user-defined effects. Note that <code>fortytwo</code> and <code>empty</code> are both pure computations.</p>
+<p>We could transform the output instead of returning it plainly. Let us wrap it inside a singleton list:</p>
+<pre class="links"><code>fun listify(m) {
+    handle(m) {
+       case Return(x) -&gt; [x]
+    }
+}</code></pre>
+<p>The inferred type for <code>listify</code> is \((() \to a ) \to [a] \). Running a few examples, we see that every output gets wrapped inside a singleton list:</p>
+<pre class="links"><code>links&gt; listify(fortytwo);
+[42] : [Int]
+
+links&gt; listify(empty);
+[()] : [()]
+
+links&gt; listify(fun() { [1,2,3,4] });
+[[1,2,3,4]] : [[Int]]</code></pre>
+<p>So far, we have only transformed the results of computations. Next let us make things more interesting by using effects.</p>
+<h3 id="exception-handling-the-maybe-handler">Exception handling: The Maybe handler</h3>
+<p>Possibly the very first application of handlers I thought of was exception handlers. Let us create a handler that returns <code>Nothing</code> when a computation fails and <code>Just</code> the result when it succeeds. Haskell programmers will recognise this as the <em>Maybe</em> monad. We will use the operation <code>Fail</code> to indicate error:</p>
+<pre class="links"><code>fun maybe(m) {
+    handle(m) {
+       case Fail(p,k) -&gt; Nothing
+       case Return(x) -&gt; Just(x)
+    }
+}</code></pre>
+<p>The first case handles the user-defined operation <code>Fail</code>. The case exposes two parameters <code>p</code> and <code>k</code>. The first parameter <code>p</code> is a user-defined argument, while <code>k</code> is a continuation from when the operation was discharged. The <code>maybe</code> handler gets typed as \[ ( () \xrightarrow{\{Fail: ( \_ ) \to ( \_ ) \}} a) \to [|Just:a|Nothing| \_ |] \] Here underscore (_) hides the names of unused type variables. The output type might look rather obscure, but it is just Links “pretty-printing” a polymorphic variant type. Notice that the computation signature has an nonempty effect signature now. The signature is interpreted as “<code>maybe</code> handles a computation that <em>might</em> perform the <code>Fail</code> operation”.</p>
+<p>At the time of writing operations are discharged by using the <code>do</code> primitive which does not really “feel” functionally. It is really a construct from the intermediate representation in the compiler which has leaked into the front-end such that there is a one-to-one mapping. For now it is convenient, but I might change in the future. In my implementation I take advantage of Links’ structural typing system, so we need not declare operations before using them. Syntactically an user-defined operation begins with a capital letter, e.g. <code>Fail</code> is an operation name. Let us try some examples with <code>maybe</code>:</p>
+<pre class="links"><code>links&gt; maybe(fortytwo);
+Just(42) : [|Just:Int|Nothing|_|]
+
+fun failure() {
+    do Fail()
+}
+links&gt; maybe(failure);
+Nothing() : [|Just:a|Nothing|_|]</code></pre>
+<p>The abstract computation <code>failure</code> gets typed as \( () \xrightarrow{\{Fail:( ( ) ) \to a \; | \rho \}} a \). We see that its type closely resembles the type of the input parameter to <code>maybe</code>. However, there are a few subtle differences:</p>
+<ul>
+<li>The <code>failure</code> computation’s effect row is open as signified by the presence of \( \rho \) in the signature.</li>
+<li>The type of the argument to <code>Fail</code> is unit \(()\).</li>
+</ul>
+<p>Firstly, \( \rho \) is a <a href="http://gallium.inria.fr/~remy/ftp/taoop1.pdf">polymorphic row variable</a>. Row polymorphism will be crucial for open handlers. Actually, row polymorphism is principal in my project, so it’s a bit strange to gloss over it. Anyways, we will possibly return to it in a later post.</p>
+<p>Secondly, the type system ensures that the application <code>maybe(failure)</code> is well-typed by unifying the types of <code>failure</code> and the input parameter <code>m</code> to <code>maybe</code>. So, the type variables get instantiated with concrete types.</p>
+<p>Upon failure <code>maybe</code> discards the remainder of computation as the following example shows:</p>
+<pre class="links"><code>fun helpMe() {
+    var x = &quot;Thanks!&quot;;
+    do Fail();
+    x
+}
+links&gt; maybe(helpMe);
+Nothing() : [|Just:a|Nothing|_|]</code></pre>
+<p>Actually, we could invoke the continuation <code>k</code> to recover the computation e.g.</p>
+<pre class="links"><code>fun recover(m) {
+    handle(m) {
+        case Fail(p,k) -&gt; k(())
+    	case Return(x) -&gt; Just(x)
+    }
+}
+
+links&gt; recover(helpMe);
+Just(&quot;Thanks&quot;) : [|Just:String|_|]</code></pre>
+<p>The handler <code>recover</code> ignores the failure and resumes execution of the computation. Albeit, it is seldomly a sound idea to ignore an exception, but this example hints that handlers assign semantics to computations. The operations are entirely abstract, it is the handlers that instantiate operations with a concrete implementation. The key insight is that we can think of computations as trees where the nodes are operations and leaves are concrete results. In other words, an abstract computation is a syntactical structure.</p>
+<h3 id="handling-choice">Handling Choice</h3>
+<p>In this section we will look at a slightly more interesting example of how we may use handlers to change the semantics of a computation. Consider the following computation:</p>
+<pre class="links"><code>fun choice() {
+    var x =
+    	if (do Choose()) {
+	   40
+        } else {
+	   10
+	}
+    var y =
+        if (do Choose()) {
+	   0
+        } else {
+	   2
+	}
+    x + y	
+}</code></pre>
+<p>The abstract computation <code>choice</code> discharges the operation <code>Choose</code> twice: first time to select whether <code>x</code> should be assigned 40 or 10, and the second time to select whether <code>y</code> should be assigned 0 or 2. Finally, the values of <code>x</code> and <code>y</code> are added. The operation <code>Choose</code> gets typed as \( () \to \texttt{Bool} \), and the type of <code>choice</code> is \[ () \xrightarrow{\{ Choose: ( ( ) ) \to \texttt{Bool} \; | \rho \}} \texttt{Int} \]</p>
+<p>We can define two handlers, <code>chooseTrue</code> and <code>chooseFalse</code>, which always choose true and false respectively:</p>
+<pre class="links"><code>fun chooseTrue(m) {
+    handle(m) {
+       case Choose(p,k) -&gt; k(true)
+       case Return(x)   -&gt; x
+    }
+}
+
+fun chooseFalse(m) {
+    handle(m) {
+       case Choose(p,k) -&gt; k(false)
+       case Return(x)   -&gt; x
+    }
+}</code></pre>
+<p>They both get typed as \( ( () \xrightarrow{\{ Choose: ( \_ ) \to \texttt{Bool} \}} \texttt{Int} ) \to \texttt{Int} \). Let us run the handlers on <code>choice</code>:</p>
+<pre class="links"><code>links&gt; chooseTrue(choice);
+40 : Int
+
+links&gt; chooseFalse(choice);
+12 : Int</code></pre>
+<p>Unsurprisingly, <code>chooseTrue</code> corresponds to take the first branch in each of the conditional expression. Analogously, <code>chooseFalse</code> takes the second branch in both conditional expressions. Notice that we only invoke the continuation <code>k</code> once; there is nothing keeping us from invoking it twice, three, four, five, or whatever times you would like. By invoking it twice we can easily define a handler that enumerates all possible choices:</p>
+<pre class="links"><code>fun chooseAll(m) {
+    handle(m) {
+       case Choose(p,k) -&gt; k(true) ++ k(false)
+       case Return(x)   -&gt; [x]
+    }
+}
+
+links&gt; chooseAll(choice);
+[40, 42, 10, 12] : [Int]</code></pre>
+<p>When handling <code>Choose</code> the handler <code>chooseAll</code> invokes the continuation twice. The first invocation picks the true branch and the second picks the false branch. For the particular abstract computation <code>choice</code> the handler invokes the continuation <code>k</code> six times to visit all branches of the computation.</p>
+<p>I think this example is a nice first practical example of how handlers assign semantics to computations. Furthermore, we could add randomness to choose branches at random. However, in order to do this modularily we need open handlers, so I will leave that example for later.</p>
+<h3 id="simulating-stateful-computations">Simulating stateful computations</h3>
+<p>Let us conclude this tour by looking at how we can simulate stateful computations using closed handlers. We will need two operations:</p>
+<ol style="list-style-type: decimal">
+<li><code>Get</code> with type \( () \to s \) to retrieve the state.</li>
+<li><code>Put</code> with type \( s \to ( ) \) to modify the state.</li>
+</ol>
+<p>Consider the following stateful computation where our state \( s \) is an integer:</p>
+<pre class="links"><code>fun comp() {
+    var s = do Get();
+    do Put(s + 1);
+    var s = do Get();
+    do Put(s + s);
+    do Get()
+}</code></pre>
+<p>The stateful computation <code>comp</code> first retrieve the initial state and then increments it by one. Afterwards, it retrieves and doubles the state, and then returns the final state. The type of <code>comp</code> is \[ ( ) \xrightarrow{\{ Get:(()) \to \texttt{Int}, Put:(\texttt{Int}) \to () \; | \rho \}} \texttt{Int} \]</p>
+<p>The interesting part is how we implement state. Because Links is a functional programming language our principal abstraction is a function type. Thus, we will abstract over state by encapsulating it inside a function:</p>
+<pre class="links"><code>fun state(m) {
+    handle(m) {
+       case Get(p,k)  -&gt; fun(s) {
+                           k(s)(s)
+                         }
+       case Put(p,k)  -&gt; fun(s) {
+                           k(())(p)
+                         }
+       case Return(x) -&gt; fun(s) {
+                           x
+                         }
+    }
+}</code></pre>
+<p>The <code>state</code> handler has type \[ (() \xrightarrow{\{ Get:( \_ ) \to \texttt{a}, Put:(a) \to ()\}} b ) \to (a) \to b \] Thus, we can tell from the signature that <code>state(comp)</code> returns a function of type \( (\texttt{Int}) \to \texttt{Int} \) which is a function that given an initial state will return the final state.</p>
+<p>At first glance the cases may seem unclear how the state is maintained, but I invite the reader to do an abstract simulation of <code>state(comp)</code> (on paper) – it is an interesting little exercise.</p>
+<p>This state handler is partially lazy as when it first handles either <code>Get</code> or <code>Put</code> it immediate returns a function and when that function is invoked the remainder of the stateful computation is executed.</p>
+<p>We define a convenient helper function to run stateful computations:</p>
+<pre class="links"><code>fun runState(s0, c) {
+    var f = state(c);
+    f(s0)
+}</code></pre>
+<p>The parameter <code>s0</code> is the initial state and <code>c</code> is the computation we want to execute. Let us try to execute <code>comp</code> with different initial states:</p>
+<pre class="links"><code>links&gt; runState(0, comp);
+2 : Int
+
+links&gt; runState(1, comp);
+4 : Int
+
+links&gt; runState(2, comp);
+6 : Int
+
+links&gt; runState(3, comp);
+8 : Int
+
+links&gt; runState(333, comp);
+668 : Int</code></pre>
+<p>The stateful computation <code>comp</code> may not itself be the most interesting computation, but it shows that we can simulate state using functions.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We seen examples of programming with closed handlers in Links (as they look now). Moreover, we have seen how different handlers can interpret the same computations differently.</p>
+  </section>
+  <footer class="entry-footer">
+    <div class="share-this">
+      <h4>Share this:</h4>
+      <ul class="share-buttons">
+	<li>
+	  <span class="share-button" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&amp;t=' + encodeURIComponent('(Closed) Handlers for Algebraic Effects in Links')); return false;"><img src="../images/flat_web_icon_set/Facebook.png" /></span>
+	</li>
+	<li>
+	  <span class="share-button" onclick="window.open('https://twitter.com/intent/tweet?via=dhillerstrom&amp;text=' + encodeURIComponent('(Closed) Handlers for Algebraic Effects in Links') + ':%20'  + encodeURIComponent(document.URL)); return false;" title="Share via Twitter"><img src="../images/flat_web_icon_set/Twitter.png" /></span>
+	</li>
+	<li>
+	  <span class="share-button" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url=' + encodeURIComponent(document.URL)); return false;"><img src="../images/flat_web_icon_set/Googleplus.png" alt="Share on Google+" /></span>
+	</li>
+	<li>
+	  <span class="share-button" title="Share via e-mail" onclick="window.location.assign('mailto:?subject=' + encodeURIComponent('(Closed) Handlers for Algebraic Effects in Links') + '&amp;body=' +  encodeURIComponent(document.URL)); return false;"><img src="../images/flat_web_icon_set/Email.png" /></span>
+	</li>
+      </ul>
+    </div>
+  </footer>
+  <script src="https://apis.google.com/js/plusone.js"></script>
+  <div class="container">
+    <div id="comments"></div>
+  </div>
+  <script>
+    gapi.comments.render('comments', {
+    href: window.location,
+    first_party_property: 'BLOGGER',
+    view_type: 'FILTERED_POSTMOD'
+    });
+</script>
+</article>
+
+	  </div>
+	</div> <!-- /.row -->
+      </div>
+    </div><!--/wrap-->
+
+    <!-- Sticky footer -->
+    <div id="footer">
+      <div class="container">
+	<p class="text-muted">Blog by Daniel Hillerström. Generated by <a href="http://jaspervdj.be/hakyll/">Hakyll</a>.</p>
+      </div>
+    </div>
+    <!-- footer end -->
+
+    <!-- Scroll-to-top button -->
+    <ul class="nav pull-right scroll-top">
+      <li><a href="#" title="Scroll to top"><i class="glyphicon glyphicon-chevron-up"></i></a></li>
+    </ul>
+    <!-- Scroll-to-top end -->
+
+    <!-- Load scripts -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="../static/js/navbar.js"></script>
+    <script src="../static/js/init.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-64774386-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
+

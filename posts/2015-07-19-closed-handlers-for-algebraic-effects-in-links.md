@@ -121,7 +121,7 @@ fun recover(m) {
 links> recover(helpMe);
 Just("Thanks!") : [|Just:String|_|]
 ```
-The handler `recover` ignores the failure and resumes execution of the computation. Albeit, it is seldomly a sound idea to ignore an exception, but this example hints that handlers assign semantics to computations. The operations are entirely abstract, it is the handlers that instantiate operations with a concrete implementation. The key insight is that we can think of computations as trees where the nodes are operations and leaves are concrete results. In other words, an abstract computation is a syntactical structure.
+The handler `recover` ignores the failure and resumes execution of the computation. Albeit, it is seldomly a sound idea to ignore an exception, but this example hints that handlers assign semantics to computations. The operations are entirely abstract, it is the handlers that instantiate operations with a concrete implementation. Intuitively, we can think of computations as trees where the nodes are operations and leaves are concrete values. In other words, an abstract computation is a syntactical structure.
 
 ### Handling Choice
 In this section we will look at a slightly more interesting example of how we may use handlers to change the semantics of a computation. Consider the following computation:
@@ -161,7 +161,7 @@ fun chooseFalse(m) {
     }
 }
 ```
-They both get typed as \\( \( \(\) \\xrightarrow{\\{ Choose: \( \\_ \) \\to \\texttt{Bool} \\}} \\texttt{Int} \) \\to \\texttt{Int} \\).
+They both get typed as \\( \( \(\) \\xrightarrow{\\{ Choose: \( \\_ \) \\to \\texttt{Bool} \\}} a \) \\to a \\).
 Let us run the handlers on `choice`:
 ```links
 links> chooseTrue(choice);

@@ -184,7 +184,7 @@ links> chooseAll(choice);
 ```
 When handling `Choose` the handler `chooseAll` invokes the continuation twice. The first invocation picks the true branch and the second picks the false branch. For the particular abstract computation `choice` the handler invokes the continuation `k` six times to visit all branches of the computation.
 
-I think this example is a nice first practical example of how handlers assign semantics to computations. Furthermore, we could add randomness to choose branches at random. However, in order to do this modularily we need open handlers, so I will leave that example for later.
+I think this example is a nice first practical example of how handlers assign semantics to computations. Furthermore, we could add randomness to choose branches at random. However, in order to do so in a modular fashion we need open handlers, so I will leave that example for later.
 
 ### Simulating stateful computations
 Let us conclude this tour by looking at how we can simulate stateful computations using closed handlers. We will need two operations:

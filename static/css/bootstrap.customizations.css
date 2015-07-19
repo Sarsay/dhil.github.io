@@ -114,6 +114,11 @@ to {opacity: 1;}
 /**
  * Settings related to entries
  */
+
+h1, h2, h3, h4 {
+    text-align: left;
+}
+
 .entry {
     width: 100%;
     text-align: left;

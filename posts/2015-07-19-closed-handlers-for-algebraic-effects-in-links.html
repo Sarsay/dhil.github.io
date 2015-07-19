@@ -196,7 +196,7 @@ fun chooseFalse(m) {
 
 links&gt; chooseFalse(choice);
 12 : Int</code></pre>
-<p>Unsurprisingly, <code>chooseTrue</code> corresponds to take the first branch in each of the conditional expression. Analogously, <code>chooseFalse</code> takes the second branch in both conditional expressions. Notice that we only invoke the continuation <code>k</code> once; there is nothing keeping us from invoking it twice, three, four, five, or whatever times you would like. By invoking it twice we can easily define a handler that enumerates all possible choices:</p>
+<p>Unsurprisingly, <code>chooseTrue</code> corresponds to taking the first branch in each of the conditional expression. Analogously, <code>chooseFalse</code> takes the second branch in both conditional expressions. Notice that we only invoke the continuation <code>k</code> once; there is nothing keeping us from invoking it twice, three, four, five, or whatever times you would like. By invoking it twice we can easily define a handler that enumerates all possible choices:</p>
 <pre class="links"><code>fun chooseAll(m) {
     handle(m) {
        case Choose(p,k) -&gt; k(true) ++ k(false)

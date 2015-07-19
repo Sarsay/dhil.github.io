@@ -100,8 +100,9 @@ Secondly, the type system ensures that the application `maybe(failure)` is well-
 Upon failure `maybe` discards the remainder of computation as the following example shows:
 ```links
 fun helpMe() {
-    var x = "Thanks!";
+    var x = "I got a bad feeling about this..."
     do Fail();
+    var x = "Thanks!";
     x
 }
 links> maybe(helpMe);
@@ -117,7 +118,7 @@ fun recover(m) {
 }
 
 links> recover(helpMe);
-Just("Thanks") : [|Just:String|_|]
+Just("Thanks!") : [|Just:String|_|]
 ```
 The handler `recover` ignores the failure and resumes execution of the computation. Albeit, it is seldomly a sound idea to ignore an exception, but this example hints that handlers assign semantics to computations. The operations are entirely abstract, it is the handlers that instantiate operations with a concrete implementation. The key insight is that we can think of computations as trees where the nodes are operations and leaves are concrete results. In other words, an abstract computation is a syntactical structure.
 

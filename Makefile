@@ -12,10 +12,12 @@ site: site.hs
 	ghc --make -threaded site.hs
 
 new:
-	echo "Not yet implemented"
+	@echo -n "Enter blog post title> " ; \
+	read title ; \
+	echo "$$(date '+%Y-%m-%d')-$$title.html"
 
 publish: build
-	git add --ignore-errors posts/\*.md templates/\*.html site.hs README.md LICENSE index.html static/* images/*
+	git add --ignore-errors posts/\*.md templates/\*.html site.hs README.md LICENSE index.html 404.html static/* images/*
 	git commit -m "Added new content"
 	git push origin source
 	cp -r _site/* _build/

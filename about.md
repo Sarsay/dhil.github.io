@@ -1,7 +1,7 @@
 ---
 title: About me
 ---
-<img alt="Photography of me, February 2014" src="images/danielhillerstrom.jpg" style="float: right;width:150px;" class="img-circle img-responsive" />
+<img alt="Photography of me, February 2014" src="images/danielhillerstrom.jpg" style="width:150px;" class="img-circle img-responsive profile-pic" />
 Hi there! My name is Daniel Hillerstr&ouml;m, and I am a passionate computer science student. I saw the first rays of sunlight in 1990, and I grew up in lovely nature of [Virklund](https://www.google.co.uk/maps/place/8600+Virklund,+Denmark/@56.1826356,9.565772,12z/data=!3m1!4b1!4m2!3m1!1s0x464b8b31851a884f:0x301ff15a89742d9?hl=en) in Denmark. 
 Currently, I live in Edinburgh, Scotland, where I study computer science at the [University of Edinburgh](http://www.ed.ac.uk/informatics/).
 

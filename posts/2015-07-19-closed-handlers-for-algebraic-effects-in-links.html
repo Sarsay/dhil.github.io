@@ -223,7 +223,7 @@ links&gt; chooseAll(choice);
     do Get()
 }</code></pre>
 <p>The stateful computation <code>comp</code> first retrieve the initial state and then increments it by one. Afterwards, it retrieves and doubles the state, and then returns the final state. The type of <code>comp</code> is \[ ( ) \xrightarrow{\{ Get:(()) \to \texttt{Int}, Put:(\texttt{Int}) \to () \; | \rho \}} \texttt{Int} \]</p>
-<p>The interesting part is how we implement state. Because Links is a functional programming language our principal abstraction is a function type. Thus, we will abstract over state by encapsulating it inside a function:</p>
+<p>The interesting part is how we implement state. Because Links is a functional programming language our principal abstraction is a function. Thus, we will abstract over state by encapsulating it inside a function:</p>
 <pre class="links"><code>fun state(m) {
     handle(m) {
        case Get(p,k)  -&gt; fun(s) {

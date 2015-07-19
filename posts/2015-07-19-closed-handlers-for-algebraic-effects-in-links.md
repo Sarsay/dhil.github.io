@@ -173,7 +173,8 @@ links> chooseTrue(choice);
 links> chooseFalse(choice);
 12 : Int
 ```
-Unsurprisingly, `chooseTrue` corresponds to take the first branch in each of the conditional expression. Analogously, `chooseFalse` takes the second branch in both conditional expressions. Notice that we only invoke the continuation `k` once; there is nothing keeping us from invoking it twice, three, four, five, or whatever times you would like. By invoking it twice we can easily define a handler that enumerates all possible choices:
+Unsurprisingly, `chooseTrue` corresponds to taking the first branch in each of the conditional expression. Analogously, 
+`chooseFalse` takes the second branch in both conditional expressions. Notice that we only invoke the continuation `k` once; there is nothing keeping us from invoking it twice, three, four, five, or whatever times you would like. By invoking it twice we can easily define a handler that enumerates all possible choices:
 ```links
 fun chooseAll(m) {
     handle(m) {

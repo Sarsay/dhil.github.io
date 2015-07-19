@@ -140,8 +140,9 @@ Nothing() : [|Just:a|Nothing|_|]</code></pre>
 <p>Secondly, the type system ensures that the application <code>maybe(failure)</code> is well-typed by unifying the types of <code>failure</code> and the input parameter <code>m</code> to <code>maybe</code>. So, the type variables get instantiated with concrete types.</p>
 <p>Upon failure <code>maybe</code> discards the remainder of computation as the following example shows:</p>
 <pre class="links"><code>fun helpMe() {
-    var x = &quot;Thanks!&quot;;
+    var x = &quot;I got a bad feeling about this...&quot;
     do Fail();
+    var x = &quot;Thanks!&quot;;
     x
 }
 links&gt; maybe(helpMe);
@@ -155,7 +156,7 @@ Nothing() : [|Just:a|Nothing|_|]</code></pre>
 }
 
 links&gt; recover(helpMe);
-Just(&quot;Thanks&quot;) : [|Just:String|_|]</code></pre>
+Just(&quot;Thanks!&quot;) : [|Just:String|_|]</code></pre>
 <p>The handler <code>recover</code> ignores the failure and resumes execution of the computation. Albeit, it is seldomly a sound idea to ignore an exception, but this example hints that handlers assign semantics to computations. The operations are entirely abstract, it is the handlers that instantiate operations with a concrete implementation. The key insight is that we can think of computations as trees where the nodes are operations and leaves are concrete results. In other words, an abstract computation is a syntactical structure.</p>
 <h3 id="handling-choice">Handling Choice</h3>
 <p>In this section we will look at a slightly more interesting example of how we may use handlers to change the semantics of a computation. Consider the following computation:</p>

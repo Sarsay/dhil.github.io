@@ -207,7 +207,7 @@ links&gt; chooseFalse(choice);
 links&gt; chooseAll(choice);
 [40, 42, 10, 12] : [Int]</code></pre>
 <p>When handling <code>Choose</code> the handler <code>chooseAll</code> invokes the continuation twice. The first invocation picks the true branch and the second picks the false branch. For the particular abstract computation <code>choice</code> the handler invokes the continuation <code>k</code> six times to visit all branches of the computation.</p>
-<p>I think this example is a nice first practical example of how handlers assign semantics to computations. Furthermore, we could add randomness to choose branches at random. However, in order to do this modularily we need open handlers, so I will leave that example for later.</p>
+<p>I think this example is a nice first practical example of how handlers assign semantics to computations. Furthermore, we could add randomness to choose branches at random. However, in order to do so in a modular fashion we need open handlers, so I will leave that example for later.</p>
 <h3 id="simulating-stateful-computations">Simulating stateful computations</h3>
 <p>Let us conclude this tour by looking at how we can simulate stateful computations using closed handlers. We will need two operations:</p>
 <ol style="list-style-type: decimal">

@@ -5,7 +5,7 @@ title: About me
 Hi there! My name is Daniel Hillerstr&ouml;m, and I am a passionate computer science student. I saw the first rays of sunlight in 1990, and I grew up in lovely nature of [Virklund](https://www.google.co.uk/maps/place/8600+Virklund,+Denmark/@56.1826356,9.565772,12z/data=!3m1!4b1!4m2!3m1!1s0x464b8b31851a884f:0x301ff15a89742d9?hl=en) in Denmark. 
 Currently, I live in Edinburgh, Scotland, where I study computer science at the [University of Edinburgh](http://www.ed.ac.uk/informatics/).
 
-My primary interests in computer science are semantics and type systems for programming languages, and compilers. Moreover, I have a sweet spot for mathematics, especially, mathematical analysis. I am very keen on fixed points theorems and computations (definition: A point \\(x\\) is called a *fixed point* of a function \\(f\\) if \\( f(x) = x \\)).
+My primary interests in computer science are semantics and type systems for programming languages, and compilers. Moreover, I have a sweet spot for mathematics, especially, mathematical analysis. I am very keen on fixed point theorems and computations (definition: A point \\(x\\) is called a *fixed point* of a function \\(f\\) if \\( f(x) = x \\)).
 
 ## Current work {.page-header}
 At the moment I am working on my master's dissertation [*Handlers for Algebraic Effects in Links*](https://github.com/dhil/links-effect-handlers).
